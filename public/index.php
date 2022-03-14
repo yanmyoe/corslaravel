@@ -5,6 +5,26 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
+
+$allowOrigins= array(
+    'https://lineapi.myanmaritc.com',  // API Domain
+    'https://app.linedeli.com'  // Client domain
+);
+if(isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] !='' ){
+    foreach($allowOrigins as $allowOrigin){
+        if(preg_match('#'. $allowOrigin . '#' , $_SERVER['HTTP_ORIGIN'])){
+            header('Access-Control-Allow-Origin:'.$_SERVER['HTTP_ORIGIN']);
+            header('Access-Control-Allow-Credentials: true');
+            header('Access-Control-Allow-Methods: GET,PUT,POST,DELETE,OPTIONS');
+            header('Access-Control-Max-Age:1728000');
+            header('Access-Control-Allow-Headers: Origin,Content-Type, Accept, X-Auth-Token,Authorization,
+            X-Requested-With,Content-Range,Content-Disposition,Content-Description,x-xsrf-token,ip');
+            break;
+        }
+    }
+}
+
+
 /*
 |--------------------------------------------------------------------------
 | Check If The Application Is Under Maintenance
